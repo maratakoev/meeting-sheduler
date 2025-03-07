@@ -4,26 +4,30 @@
 
     <form class="create__form" @submit.prevent="handleSubmit">
       <input 
+      v-model="meeting.name"
       class="create__input"
       type="text"
       placeholder="Meeting name"
       >
       <input 
+      v-model="meeting.data"
       class="create__input"
-      type="data"
+      type="date"
       placeholder="Meeting data"
 
       >
       <input 
+      v-model="meeting.startTime"
       class="create__input"
       type="time"
       >
       <input 
+      v-model="meeting.endTime"
       class="create__input"
       type="time"
       >
       <textarea
-      v-model="meeting.discription"
+      v-model="meeting.description"
       class="create__textarea"
       placeholder="Meeting discription"
       >
@@ -37,17 +41,37 @@
 </template>
 
 <script>
+import { useTaskStore } from '@/store/index';
+import { v4 as uuidv4 } from 'uuid';
+
 export default {
   data () {
     return {
-      meeting: [
-        {id:Date.now(), discription:""}
-      ]
+      meeting: {
+        id: uuidv4(),
+        name: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        description: "",
+      } 
     };
   },
   methods: {
-    name () {
-      //
+    handleSubmit() {
+      const store = useTaskStore();
+      const newMeeting = { ...this.meeting, id: uuidv4() }; // Генерация уникального id при добавлении
+      store.addTask(this.meeting); // Отправляем объект встречи в стор
+      this.resetForm(); // Очищаем форму после добавления
+    },
+    resetForm() {
+      this.meeting = {
+        name: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        description: "",
+      };
     }
   }
 };

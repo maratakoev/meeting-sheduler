@@ -2,10 +2,11 @@
   <div class="saved-meetings">
     <h3>Saved meetings</h3>
     <ul class="saved-meetings__list">
-      <li class="saved-meetings__item" v-for="meet in meetingList" :key="meet.id">
-      <span>{{ meet.name }}</span>
-      <span>{{ meet.data }}</span>
-      <span>{{ meet.time }}</span>
+      <li class="saved-meetings__item" v-for="(meet, ) in meetsList" :key="meet.id">
+      <span class="saved-meetings__name">{{ meet.name }}</span>
+      <!-- <span class="saved-meetings__date">{{ meet.data }}</span> -->
+      <!-- <span>{{ meet.startTime }} - {{ meet.endTime }}</span> -->
+      <button @click="removeMeeting(meet.id)">Remove</button>
     </li>
     </ul>
 
@@ -13,22 +14,24 @@
 </template>
 
 <script>
+import { useTaskStore } from '@/store/index';
+
 export default {
+  computed: {
+    meetsList() {
+      const store = useTaskStore();
+      return store.meetsList; 
+    }
+  },
   data () {
     return {
-      meetingList: [
-        {id:Date.now(), name:"John Smith", data:"12th feb", time:"12:45"},
-        {id:Date.now(), name:"Lora Kauphman", data:"11th fed", time:"12:45"},
-        {id:Date.now(), name:"Jada Pinket", data:"1th mar", time:"12:45"},
-        {id:Date.now(), name:"Amanda Grey", data:"4th dec", time:"12:45"},
-        {id:Date.now(), name:"Lucy Oravan", data:" 4th mar", time:"12:45"},
-
-      ]
+      
     };
   },
   methods: {
-    name () {
-      //
+    removeMeeting(id) {
+      const store = useTaskStore();
+      store.removeTask(id); // Удаляем встречу по id
     }
   }
 };
@@ -48,6 +51,7 @@ export default {
 
 .saved-meetings__list {
   padding-left: 0;
+  width: 280px;
 }
 .saved-meetings__item {
   list-style: none;
@@ -55,5 +59,10 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+
+.saved-meetings__name {
+  width: 130px;
+}
+
 
 </style>
