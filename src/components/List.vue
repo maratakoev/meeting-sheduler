@@ -3,13 +3,12 @@
     <h3>Saved meetings</h3>
     <ul class="saved-meetings__list">
       <li class="saved-meetings__item" v-for="(meet, ) in meetsList" :key="meet.id">
-      <span class="saved-meetings__name">{{ meet.name }}</span>
-      <!-- <span class="saved-meetings__date">{{ meet.data }}</span> -->
-      <!-- <span>{{ meet.startTime }} - {{ meet.endTime }}</span> -->
-      <button @click="removeMeeting(meet.id)">Remove</button>
-    </li>
+        <span class="saved-meetings__name">{{ meet.name }}</span>
+        <!-- <span class="saved-meetings__date">{{ meet.data }}</span> -->
+        <!-- <span>{{ meet.startTime }} - {{ meet.endTime }}</span> -->
+        <button @click="removeMeeting(meet.id)" class="btn">Remove</button>
+      </li>
     </ul>
-
   </div>
 </template>
 
@@ -24,9 +23,7 @@ export default {
     }
   },
   data () {
-    return {
-      
-    };
+    return {};
   },
   methods: {
     removeMeeting(id) {
@@ -45,8 +42,6 @@ export default {
   flex-direction: column;
   height: 300px;
   color: #eae7dc;
-
-  /* align-items: center; */
 }
 
 .saved-meetings__list {
@@ -61,8 +56,15 @@ export default {
 }
 
 .saved-meetings__name {
-  width: 130px;
+  width: 200px;
+  overflow-x: auto;
 }
 
-
+.btn {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #e98074;
+  color: #eae7dc;
+  background-color: #e85a4f;
+}
 </style>

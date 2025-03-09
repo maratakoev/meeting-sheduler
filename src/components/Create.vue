@@ -4,39 +4,38 @@
 
     <form class="create__form" @submit.prevent="handleSubmit">
       <input 
-      v-model="meeting.name"
-      class="create__input"
-      type="text"
-      placeholder="Meeting name"
-      >
+        v-model="meeting.name"
+        class="create__input"
+        type="text"
+        placeholder="Meeting name"
+      />
       <input 
-      v-model="meeting.data"
-      class="create__input"
-      type="date"
-      placeholder="Meeting data"
-
-      >
+        v-model="meeting.date"
+        class="create__input"
+        type="date"
+        placeholder="Meeting date"
+      />
       <input 
-      v-model="meeting.startTime"
-      class="create__input"
-      type="time"
-      >
+        v-model="meeting.startTime"
+        class="create__input"
+        type="time"
+        placeholder="Start time"
+      />
       <input 
-      v-model="meeting.endTime"
-      class="create__input"
-      type="time"
-      >
+        v-model="meeting.endTime"
+        class="create__input"
+        type="time"
+        placeholder="End time"
+      />
       <textarea
-      v-model="meeting.description"
-      class="create__textarea"
-      placeholder="Meeting discription"
-      >
-      </textarea>
+        v-model="meeting.description"
+        class="create__textarea"
+        placeholder="Meeting description"
+      />
       <button class="btn">
         Add new meeting
       </button>
     </form>
-
   </div>
 </template>
 
@@ -45,10 +44,9 @@ import { useTaskStore } from '@/store/index';
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  data () {
+  data() {
     return {
       meeting: {
-        id: uuidv4(),
         name: "",
         date: "",
         startTime: "",
@@ -60,9 +58,22 @@ export default {
   methods: {
     handleSubmit() {
       const store = useTaskStore();
-      const newMeeting = { ...this.meeting, id: uuidv4() }; // Генерация уникального id при добавлении
-      store.addTask(this.meeting); // Отправляем объект встречи в стор
-      this.resetForm(); // Очищаем форму после добавления
+
+      // Генерация уникального id
+      const newMeeting = {
+        id: uuidv4(),
+        name: this.meeting.name,
+        date: this.meeting.date,
+        startTime: this.meeting.startTime,
+        endTime: this.meeting.endTime,
+        description: this.meeting.description,
+      };
+
+      // Добавление встречи в стор
+      store.addTask(newMeeting);
+
+      // Очищаем форму после добавления
+      this.resetForm();
     },
     resetForm() {
       this.meeting = {
@@ -85,8 +96,8 @@ export default {
   flex-direction: column;
   height: 300px;
   color: #8e8d8a;
-
 }
+
 .create__form {
   display: flex;
   flex-direction: column;
@@ -102,29 +113,25 @@ export default {
   color: #8e8d8a;
 }
 
-.create__input::placeholder{
+.create__input::placeholder {
   color: #8e8d8a;
 }
 
 .create__input::-webkit-calendar-picker-indicator {
-  filter: invert(44%) sepia(20%) saturate(100%) hue-rotate(30deg); /* Приблизительно создает цвет #8e8d8a */
+  filter: invert(44%) sepia(20%) saturate(100%) hue-rotate(30deg);
 }
 
 .create__textarea {
   background-color: #eae7dc;
-
   padding: 5px 10px;
   border-radius: 8px;
   border: 1px solid #8e8d8a;
   margin-bottom: 10px;
-
 }
+
 .create__textarea::placeholder {
   color: #8e8d8a;
-
-
 }
-
 
 .btn {
   padding: 5px 10px;
@@ -135,8 +142,5 @@ export default {
   width: 150px;
   margin-left: auto;
   margin-right: auto;
-
-
 }
-
 </style>

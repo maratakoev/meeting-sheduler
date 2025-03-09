@@ -1,7 +1,7 @@
 <template>
   <div class="home-page">
     <vue-cal 
-      :events="events" 
+      :events="formattedEvents" 
       :selected-date="selectedDate" 
       @date-click="handleDateClick"
     />
@@ -9,10 +9,9 @@
 </template>
 
 <script>
-// Импортируем компонент Vue Cal
 import VueCal from 'vue-cal';
-// Импортируем стили Vue Cal
 import 'vue-cal/dist/vuecal.css';
+import { useTaskStore } from '@/store/index';
 
 export default {
   components: {
@@ -20,22 +19,20 @@ export default {
   },
   data() {
     return {
-      // Массив событий
-      events: [
-        {
-          start: '2025-03-07 10:00',
-          end: '2025-03-07 11:00',
-          title: 'Событие 1',
-        },
-        {
-          start: '2025-03-08 12:00',
-          end: '2025-03-08 14:00',
-          title: 'Событие 2',
-        },
-      ],
-      // Выбранная дата
       selectedDate: '2025-03-07',
     };
+  },
+  computed: {
+    // Получаем события из стора и форматируем их
+    formattedEvents() {
+      const store = useTaskStore();
+      return store.meetsList.map(meeting => ({
+        start: `${meeting.date} ${meeting.startTime}`,  // Время начала
+        end: `${meeting.date} ${meeting.endTime}`,      // Время окончания
+        title: meeting.name,  // Название события
+        description: meeting.description, // Описание события
+      }));
+    }
   },
   methods: {
     handleDateClick(date) {
@@ -47,9 +44,13 @@ export default {
 
 <style scoped>
 .home-page {
-  /* max-width: 400px; */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: #eae7dc;
   margin: 0 auto;
   padding: 20px;
-  min-height: 500px;
+  height: 600px;
+  min-width: 700px;
 }
 </style>

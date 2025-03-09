@@ -4,8 +4,7 @@
       <create></create>
       <list></list>
     </div>
-
-    <div class="home-page__calendar">
+    <div class="home-page__right-part">
       <cal/>  
     </div>
   </div>
@@ -33,28 +32,13 @@ export default {
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  max-width: 865px;
+  max-width: 1050px;
 }
 
 .home-page__left-part {
   display: flex;
   flex-direction: column;
   width: 300px;
-}
-
-
-
-
-
-.home-page__calendar {
-  background-color: #eae7dc;
-  padding: 0px;
-  display: flex;
-  flex-direction: column;
-  width: 570px;
-  height: 640px;
-  overflow-y: auto
-
 }
 
 </style>
